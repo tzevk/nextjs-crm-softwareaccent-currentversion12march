@@ -52,16 +52,16 @@ button, input[type=submit] {
 
 /* Signup Button */
 .signup-btn {
-  background: linear-gradient(to right, #86288F, #64126D);
-  color: white;
-  border: none;
+  background: rgba(255, 255, 255, 0.3);
+  color: #3a0d47;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   transition: all 0.3s ease-in-out;
 }
 
 .signup-btn:hover {
-  background: linear-gradient(to right, #64126D, #3a0d47);
+  background: rgba(255, 255, 255, 0.4);
   transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(134, 40, 143, 0.5);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 button:hover {
   border-color: var(--dark-accent);
@@ -80,7 +80,6 @@ body {
   color: var(--font-color);
   text-align: center;
   font-family: 'Open Sans', sans-serif;
-  
 }
 
 @keyframes gradientBG {
@@ -107,7 +106,7 @@ body {
   width: 400px;
   padding: 40px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.479);
   border-radius: 18px;
   backdrop-filter: blur(15px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.3);
@@ -129,7 +128,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /* Link Buttons */
