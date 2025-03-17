@@ -1,81 +1,86 @@
-"Use client"
-import styles from '../styles/login.module.css'
-import Layout from '../components/layout'
-import { getCookie } from 'cookies-next';
-import Link from 'next/link'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import Layout from '../components/layout';
+import styles from '../styles/login.module.css'; 
+import Link from 'next/link';
+import Image from 'next/image';
 
-export default function LoginPage({ username }) {
-  const router = useRouter()
-  const { msg } = router.query
-    return (
-      <Layout pageTitle="Login">
-          <div className={styles.loginBox}>
-            {/* Logo */}
-            <Image 
-              src="/accent.png" 
-              alt="Accent Logo" 
-              className={styles.logo} 
-              width={280} 
-              height={280} 
-              priority
-            />
+export default function LoginPage() {
+    const router = useRouter();
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-            {/* Login Form */}
-            <form action='/api/login' method='POST' className={styles.form}>
-              <div className={styles.inputGroup}>
-                <label htmlFor="username">Username</label>
-                <input
-                  name="username"
-                  id="username"
-                  type="email"
-                  placeholder="Enter your email"
-                  required
-                  className={styles.input}
-                />
-              </div>
-  
-              <div className={styles.inputGroup}>
-                <label htmlFor="password">Password</label>
-                <input
-                  name="password"
-                  id="password"
-                  type="password"
-                  placeholder="Password"
-                  required
-                  className={styles.input}
-                />
-                <Link href="/forgot-password" className={styles.forgotPassword}>
-                  Forgot password?
-                </Link>
-              </div>
-  
-              {/* Submit Button */}
-              <button type="submit" className={styles.button}>Continue</button>
-            </form>
-  
-            {/* Sign-up Link */}
-            <p className={styles.signUpText}>
-              Don't have an account? <Link href="/signup" className={styles.signUpLink}>Sign up</Link>
-            </p>
-          </div>
-      </Layout>
-    );
-  }
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent page reload
+        setLoading(true);
+        setError("");
 
+        const formData = {
+            username: e.target.username.value,
+            password: e.target.password.value
+        };
 
-export async function getServerSideProps(context) {
-  const req = context.req;
-  const res = context.res;
-  const username = getCookie('username', { req, res });
-  if (username != undefined) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/"
-      }
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // ✅ Redirect to dashboard on successful login
+                router.push('/dashboard');
+            } else {
+                setError(data.message || "Login failed. Please try again.");
+            }
+        } catch (err) {
+            setError("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
-  }
-  return { props: { username: false } };
+
+    return (
+        <Layout pageTitle="Login">
+            <div className={styles.container}>
+                <div className={styles.loginBox}>
+                    {/* Logo */}
+                    <Image 
+                        src="/accent.png" 
+                        alt="Accent Logo" 
+                        className={styles.logo} 
+                        width={280} 
+                        height={280} 
+                        priority
+                    />
+
+                    {error && <h3 className={styles.error}>{error}</h3>}
+
+                    {/* Form */}
+                    <form onSubmit={handleSubmit} className={styles.form}>
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="username">Username</label>
+                            <input name="username" type="text" placeholder="Username" required className={styles.input} />
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="password">Password</label>
+                            <input name="password" type="password" placeholder="Password" required className={styles.input} />
+                        </div>
+
+                        <button type="submit" className={styles.button} disabled={loading}>
+                            {loading ? "Logging in..." : "Continue"}
+                        </button>
+                    </form>
+
+                    <p className={styles.signUpText}>
+                        Don't have an account?{' '}
+                        <Link href="/signup" className={styles.signUpLink}>Sign Up</Link>
+                    </p>
+                </div>
+            </div>
+        </Layout>
+    );
 }
