@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import styles from '../styles/layout.module.css';
 
-export const siteTitle = "Login Signup Nextjs";
+export const siteTitle = "Accent CRM";
 
 export default function Layout({ pageTitle, children }) {
   return (
