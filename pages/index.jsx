@@ -5,18 +5,26 @@ import Link from 'next/link'
 export default function HomePage( {username} ) {
     return (
         <Layout pageTitle="Home">
+            <div className="layout">
+            <div className="glass-card">
         {username ?
         <>
             <h2>Hi {username}</h2>
-            <Link href="/profile">Profile</Link><br/>
-            <Link href="/api/logout">Logout</Link>
+            <div className="buttons">
+            <Link href="/profile" className="login-btn" >Profile</Link><br/>
+            <Link href="/api/logout" className="signup-btn" >Logout</Link>
+            </div>
         </>: 
         <>
-            <h2>Log in</h2>
-            <Link href="/login">Login</Link><br/>
-            <Link href="/signup">Signup</Link>
+            <div className="buttons">
+            <Link href="/login" className="login-btn" >LOGIN</Link><br/>
+            <Link href="/signup" className="signup-btn" >SIGN UP</Link>
+            </div>
         </>
         }
+        </div>
+
+        </div>
         </Layout>
     );
 }

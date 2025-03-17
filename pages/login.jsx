@@ -11,7 +11,6 @@ export default function LoginPage({ username }) {
   const { msg } = router.query
     return (
       <Layout pageTitle="Login">
-        <div className={styles.container}>
           <div className={styles.loginBox}>
             {/* Logo */}
             <Image 
@@ -61,7 +60,6 @@ export default function LoginPage({ username }) {
               Don't have an account? <Link href="/signup" className={styles.signUpLink}>Sign up</Link>
             </p>
           </div>
-        </div>
       </Layout>
     );
   }
