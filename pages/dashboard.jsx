@@ -1,26 +1,24 @@
-import Link from 'next/link';
-import styles from '../styles/dashboard.module.css';
+import React from "react";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import styles from "../styles/dashboard.module.css";
 
-export default function Dashboard() {
+const Dashboard = () => {
   return (
-    <div className={styles.container}>
-      {/* Sidebar */}
-      <nav className={styles.sidebar}>
-        <h2 className={styles.logo}>CRM</h2>
-        <ul>
-          <li><Link href="/dashboard">Dashboard</Link></li>
-          <li><Link href="/clients">Clients</Link></li>
-          <li><Link href="/leads">Leads</Link></li>
-          <li><Link href="/reports">Reports</Link></li>
-          <li><Link href="/settings">Settings</Link></li>
-        </ul>
-      </nav>
-
-      {/* Main Content */}
-      <main className={styles.main}>
-        <h1>Welcome to Dashboard</h1>
-        <p>This is your CRM dashboard.</p>
+    <div className={styles.dashboard}>
+      <Sidebar />
+      <Navbar />
+      <main className={styles.content}>
+        <h1>DASHBOARD</h1>
+        <div className={styles.cards}>
+          <div className={styles.card}>💰 $1k Total Sales</div>
+          <div className={styles.card}>📦 300 Orders</div>
+          <div className={styles.card}>✔ 5 Products Sold</div>
+          <div className={styles.card}>👥 8 New Customers</div>
+        </div>
       </main>
     </div>
   );
-}
+};
+
+export default Dashboard;

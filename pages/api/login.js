@@ -23,7 +23,16 @@ export default async function handler(req, res) {
       if (guess_hash === user.Password) {
         // Set authentication cookie
         const cookies = new Cookies(req, res);
-        cookies.set('username', username, { httpOnly: true });
+        cookies.set("session", username, {
+          httpOnly: true, // Prevent client-side access
+          secure: process.env.NODE_ENV === "production", // Secure in production
+          sameSite: "strict", // Protect against CSRF attacks
+          maxAge: 24 * 60 * 60 * 1000, // 1-day expiration
+          path: "/"
+        });
+
+        res.setHeader("Set-Cookie", `session=${username}; Path=/; HttpOnly; Max-Age=${60 * 60 * 24}`);
+
 
         // ✅ Send success response to frontend
         return res.status(200).json({ success: true, message: "Login successful! Redirecting to dashboard..." });

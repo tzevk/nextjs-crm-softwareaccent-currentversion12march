@@ -1,0 +1,109 @@
+/* Sidebar Container */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background: white; /* White Background */
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+  
+  /* User Section */
+  .userSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 15px;
+  }
+  
+  /* Rounded Square Logo */
+  .userLogo {
+    width: 55px;
+    height: 55px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    margin-top: 25px;
+  }
+  
+  /* User Icon */
+  .userIcon {
+    color: #470057;
+  }
+  
+  /* Username */
+  .username {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1a1a1a; /* Black for contrast */
+    margin-top: 10px;
+  }
+
+/* Navigation Menu */
+.navMenu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  gap: 25px; /* Equal spacing for all items */
+}
+
+/* Navigation Items */
+.navItem {
+  padding: 14px 15px;
+  text-decoration: none;
+  color: #707070; /* Grey icons & text */
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease-in-out;
+}
+  /* Icons */
+  .icon {
+    color: #707070;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  /* Active Tab */
+  .active {
+    background: #470057;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .active .icon {
+    color: white;
+  }
+  
+  /* Hover Effect */
+  .navItem:hover {
+    background: #470057;
+    color: white;
+  }
+  
+  .navItem:hover .icon {
+    color: white;
+  }
+  
+  /* Logout Button */
+  .logout {
+    margin-top: auto;
+    color: #ff4d4d; /* Light Red */
+    font-weight: bold;
+  }
+  
+  .logout:hover {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+  }
