@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/layout';
 import styles from '../styles/login.module.css'; 
-import Cookies from 'js-cookies';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -22,6 +21,7 @@ export default function LoginPage() {
         };
 
         try {
+            console.log("🔄 Sending Login Request...");
             const response = await fetch('/api/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -29,16 +29,22 @@ export default function LoginPage() {
             });
 
             const data = await response.json();
+            console.log("🔍 API Response:", data);
 
             if (response.ok) {
-                // ✅ Save session in cookies (client-side only for quick access)
-                Cookies.set("username", formData.username, { expires: 1 });
-                // ✅ Redirect to dashboard on successful login
-                router.push('/dashboard');
+                console.log("✅ Login Success!");
+
+                // 🚀 Redirect without cookies
+                setTimeout(() => {
+                    console.log("🚀 Redirecting to dashboard...");
+                    router.push('/dashboard');
+                }, 300);
             } else {
+                console.log("❌ Login Failed:", data.message);
                 setError(data.message || "Login failed. Please try again.");
             }
         } catch (err) {
+            console.log("❌ Error:", err);
             setError("Something went wrong. Please try again.");
         } finally {
             setLoading(false);

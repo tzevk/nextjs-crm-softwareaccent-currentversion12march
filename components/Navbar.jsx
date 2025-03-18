@@ -18,7 +18,6 @@ const Navbar = () => {
     <nav className={styles.navbar}>
       {/* Search Bar */}
       <div className={styles.searchContainer}>
-        <input type="text" className={styles.search} placeholder="🔍 Search here..." />
       </div>
 
       {/* User Profile & Notification */}
