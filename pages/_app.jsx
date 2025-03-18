@@ -44,7 +44,7 @@ export default function App({ Component, pageProps }) {
   const router = useRouter();
 
   // Pages where Sidebar & Navbar should NOT appear
-  const noLayoutPages = ['/login', '/register', '/forgot-password', '/'];
+  const noLayoutPages = ['/login', '/signup', '/forgot-password', '/'];
 
   return (
     <CookiesProvider>
