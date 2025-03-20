@@ -1,6 +1,7 @@
+// components/ProjectsWidget.jsx
 import React from "react";
 import WidgetCard from "./WidgetCard";
-import styles from "../styles/dashboard.module.css"; // Use your existing styling
+import styles from "../styles/dashboard.module.css";
 
 const ProjectsWidget = () => {
   const projects = [
@@ -12,13 +13,12 @@ const ProjectsWidget = () => {
   ];
 
   const handleViewDetails = () => {
-    // Navigate to projects details or open a modal
+    // Navigate to project details or open a modal
   };
 
   const handleAddNewProject = () => {
     // Trigger the new project creation flow
   };
-
 
   return (
     <WidgetCard
@@ -27,9 +27,15 @@ const ProjectsWidget = () => {
       onAddNew={handleAddNewProject}
     >
       <ul className={styles.projectList}>
-        {projects.map((project) => (
-          <li key={project.id} className={styles.projectItem}>
-            <strong>{project.project_name}</strong> - <span>{project.status}</span>
+        {projects.map((project, index) => (
+          <li
+            key={project.id}
+            className={`${styles.projectItem} ${
+              index % 2 === 0 ? styles.projectItemEven : ""
+            }`}
+          >
+            <span className={styles.projectName}>{project.project_name}</span>
+            <span className={styles.projectStatus}>{project.status}</span>
           </li>
         ))}
       </ul>

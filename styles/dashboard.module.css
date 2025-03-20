@@ -273,3 +273,53 @@
   font-weight: bold;
 }
 
+
+/* Project List Container */
+.projectList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Each Project Item */
+.projectItem {
+  display: flex;
+  justify-content: space-between; /* Project name on the left, status on the right */
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 15px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: background-color 0.2s ease;
+}
+
+/* Optional striped background for every other row */
+.projectItemEven {
+  background-color: #fafafa;
+}
+
+/* Hover effect */
+.projectItem:hover {
+  background-color: #f3f3f3;
+}
+
+/* Project Name */
+.projectName {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.95rem;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Project Status Label */
+.projectStatus {
+  font-size: 0.85rem;
+  color: #6A0DAD;         /* Purple text to match your theme */
+  background-color: #f9f1ff; /* Subtle purple background */
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}

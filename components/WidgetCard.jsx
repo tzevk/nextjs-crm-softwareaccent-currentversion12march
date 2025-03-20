@@ -8,9 +8,6 @@ const WidgetCard = ({ title, onViewDetails, onAddNew, children }) => {
         <h2 className={styles.widgetTitle}>{title}</h2>
         <div className={styles.widgetActions}>
 
-          <button className={styles.addButton} onClick={onAddNew}>
-            +
-          </button>
         </div>
       </div>
       <div className={styles.widgetContent}>{children}</div>
