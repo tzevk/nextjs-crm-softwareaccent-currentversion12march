@@ -1,0 +1,43 @@
+.widgetCard {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 20px;
+  }
+  
+  .widgetCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  .widgetHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .widgetTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #6A0DAD;
+  }
+  
+  .widgetActions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .viewDetailsButton,
+  .addButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .addButton {
+    font-size: 1.2rem;
+    color: #6A0DAD;
+  }

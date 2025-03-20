@@ -1,17 +1,19 @@
-// WidgetCard.jsx
 import React from "react";
-import styles from "../styles/dashboard.module.css";
+import styles from "../styles/widgetCard.module.css"; // create a new CSS file or merge with your existing one
 
-const WidgetCard = ({ widget, index, onDelete }) => {
+const WidgetCard = ({ title, onViewDetails, onAddNew, children }) => {
   return (
-    <div className={styles.card}>
-      <span>{widget}</span>
-      <button
-        onClick={() => onDelete(index)}
-        className={styles.deleteButton}
-      >
-        Delete
-      </button>
+    <div className={styles.widgetCard}>
+      <div className={styles.widgetHeader}>
+        <h2 className={styles.widgetTitle}>{title}</h2>
+        <div className={styles.widgetActions}>
+
+          <button className={styles.addButton} onClick={onAddNew}>
+            +
+          </button>
+        </div>
+      </div>
+      <div className={styles.widgetContent}>{children}</div>
     </div>
   );
 };

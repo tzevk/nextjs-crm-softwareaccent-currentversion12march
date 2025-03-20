@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
+import TodoList from "../components/TodoList";
+import ProjectsWidget from "../components/ProjectsWidget";
+import PendingPayment from "../components/PendingPayment";
 import styles from "../styles/dashboard.module.css";
 
 export default function Dashboard() {
+  
+  const [selectedYear, setSelectedYear] = useState(2024);
   const [leadCounts, setLeadCounts] = useState({
     Open: 0,
     "Under Discussion": 0,
@@ -12,15 +17,11 @@ export default function Dashboard() {
     Closed: 0,
   });
 
-  const [selectedYear, setSelectedYear] = useState(2024); // Ensure it's a number
-
   useEffect(() => {
     const fetchLeadCounts = async () => {
       try {
         const response = await fetch(`/api/leads/status?year=${selectedYear}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch lead counts");
-        }
+        if (!response.ok) throw new Error("Failed to fetch lead counts");
         const data = await response.json();
         setLeadCounts(data);
       } catch (error) {
@@ -37,20 +38,23 @@ export default function Dashboard() {
       <div className={styles.mainContent}>
         <Navbar />
         <main className={styles.content}>
-          <h1 className={styles.title}>Dashboard</h1>
+          {/* <h1 className={styles.title}>DASHBOARD</h1> */}
 
-          {/* Year Selector */}
-          <div className={styles.filterContainer}>
-            <label htmlFor="yearSelect">Filter by Year:</label>
-            <select
-              id="yearSelect"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(parseInt(e.target.value, 10))}
-            >
-              <option value={2024}>2024</option>
-              <option value={2025}>2025</option>
-            </select>
-          </div>
+          {/* Year Filter */}
+          <div className={styles.filterTabs}>
+  <button
+    className={`${styles.filterTab} ${selectedYear === 2024 ? styles.activeTab : ""}`}
+    onClick={() => setSelectedYear(2024)}
+  >
+    2024
+  </button>
+  <button
+    className={`${styles.filterTab} ${selectedYear === 2025 ? styles.activeTab : ""}`}
+    onClick={() => setSelectedYear(2025)}
+  >
+    2025
+  </button>
+</div>
 
           {/* Lead Counts Table */}
           <div className={styles.tableContainer}>
@@ -75,6 +79,16 @@ export default function Dashboard() {
               </tbody>
             </table>
           </div>
+
+          <div className={styles.widgets}>
+            <ProjectsWidget />
+            <PendingPayment />
+          
+            <TodoList />
+
+          </div>
+
+
         </main>
       </div>
     </div>
