@@ -1,6 +1,6 @@
 import clientPromise from "../../lib/mongodb";
 import { parse } from "cookie";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
