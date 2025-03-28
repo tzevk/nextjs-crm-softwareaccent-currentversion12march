@@ -21,7 +21,6 @@ export default function App({ Component, pageProps }) {
       {!noLayoutPages.includes(currentPath) && !isAdminPage && (
         <>
           <Sidebar />
-          <Navbar />
         </>
       )}
 

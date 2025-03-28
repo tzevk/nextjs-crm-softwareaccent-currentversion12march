@@ -1,41 +1,56 @@
-import Cookies from "cookies";
-import { createHash } from "crypto";
-import clientPromise from "../../lib/mongodb";
+import { MongoClient } from 'mongodb';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { serialize } from 'cookie';
+
+// Load environment variables
+const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_DB = "Users";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
-    try {
-      const { username, password } = req.body;
-      const client = await clientPromise;
-      const db = client.db("Users");
-
-      // 1) Fetch the user from the Profiles collection
-      const user = await db.collection("Profiles").findOne({ Username: username });
-      if (!user) {
-        return res.status(401).json({ success: false, message: "Incorrect username or password" });
-      }
-
-      // 2) Compare hashed passwords
-      const guessHash = createHash("sha256").update(password).digest("hex");
-      if (guessHash !== user.Password) {
-        return res.status(401).json({ success: false, message: "Incorrect username or password" });
-      }
-
-      // 3) Set a session cookie to signify an authenticated user
-      const cookies = new Cookies(req, res);
-      cookies.set("session", username, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        path: "/",
-      });
-
-      return res.status(200).json({ success: true, message: "Login successful!" });
-    } catch (error) {
-      return res.status(500).json({ success: false, message: "Internal server error" });
+    if (req.method !== 'POST') {
+        return res.status(405).json({ message: 'Method Not Allowed' });
     }
-  } else {
-    return res.status(405).json({ success: false, message: "Method Not Allowed" });
-  }
+
+    const { username, password, role } = req.body;
+
+    if (!JWT_SECRET) {
+        console.error("❌ JWT_SECRET is missing! Check .env.local");
+        return res.status(500).json({ message: "Internal server error" });
+    }
+
+    try {
+        const client = await MongoClient.connect(MONGODB_URI);
+        const db = client.db(MONGODB_DB);
+        const usersCollection = db.collection('Accounts');
+
+        const user = await usersCollection.findOne({ username, role });
+
+        if (!user) {
+            client.close();
+            return res.status(401).json({ message: 'Invalid username or role' });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            client.close();
+            return res.status(401).json({ message: 'Invalid password' });
+        }
+
+        const token = jwt.sign({ username, role }, JWT_SECRET, { expiresIn: '1h' });
+
+        res.setHeader('Set-Cookie', serialize('session', token, { path: '/', httpOnly: true, maxAge: 3600 }));
+
+        let redirectPath = '/dashboard';
+        if (role === 'admin') redirectPath = '/admin';
+        if (role === 'project manager') redirectPath = '/pm-dashboard';
+
+        client.close();
+        return res.status(200).json({ message: 'Login successful', redirect: redirectPath });
+
+    } catch (error) {
+        console.error('❌ Error during login:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
 }

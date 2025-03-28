@@ -17,7 +17,8 @@ export default function LoginPage() {
 
         const formData = {
             username: e.target.username.value,
-            password: e.target.password.value
+            password: e.target.password.value,
+            role: e.target.role.value
         };
 
         try {
@@ -77,6 +78,17 @@ export default function LoginPage() {
                         <div className={styles.inputGroup}>
                             <label htmlFor="password">Password</label>
                             <input name="password" type="password" placeholder="Password" required className={styles.input} />
+                        </div>
+
+                        {/* ✅ Role Dropdown */}
+                        <div className={styles.inputGroup}>
+                            <label htmlFor="role">Role</label>
+                            <select name="role" required className={styles.input}>
+                                <option value="">Select Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="project manager">Project Manager</option>
+                                <option value="user">User</option>
+                            </select>
                         </div>
 
                         <button type="submit" className={styles.button} disabled={loading}>

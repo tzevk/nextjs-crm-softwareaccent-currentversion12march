@@ -36,7 +36,7 @@ export default function Dashboard() {
     <div className={styles.dashboard}>
       <Sidebar />
       <div className={styles.mainContent}>
-        <Navbar />
+
         <main className={styles.content}>
           {/* <h1 className={styles.title}>DASHBOARD</h1> */}
 

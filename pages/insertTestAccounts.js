@@ -1,11 +1,8 @@
-// insertAccounts.js
-
 const { MongoClient } = require("mongodb");
-const { createHash } = require("crypto");
+const bcrypt = require("bcryptjs");
 
 async function insertAccounts() {
-  // 1) Hardcode your Atlas connection string here:
-  //    Replace <username>, <password>, <clusterURL>, and <dbname> with your actual details.
+  // 1) MongoDB Atlas connection string
   const uri = "mongodb+srv://admin:admin@accent.wxjct.mongodb.net/?retryWrites=true&w=majority&appName=ACCENT";
 
   // 2) Connect to MongoDB Atlas
@@ -14,51 +11,38 @@ async function insertAccounts() {
     await client.connect();
     console.log("✅ Connected to MongoDB Atlas");
 
-    // 3) Specify your database name (must match <dbname> above)
+    // 3) Specify your database and collection
     const db = client.db("Users");
+    const usersCollection = db.collection("Accounts"); // Changed collection name to store all roles
 
-    // ============== INSERT/UPDATE ADMIN ==============
-    const adminUsername = "admin";      // Adjust as needed
-    const adminPassword = "admin123";   // Use a strong password in production
+    // Helper function to insert/update user accounts
+    async function upsertUser(username, password, role) {
+      const hashedPassword = await bcrypt.hash(password, 10); // Hash the password securely
 
-    // Hash the admin password
-    const adminHash = createHash("sha256").update(adminPassword).digest("hex");
+      const result = await usersCollection.updateOne(
+        { username: username, role: role }, // Ensure uniqueness by username + role
+        { $set: { username, password: hashedPassword, role } },
+        { upsert: true }
+      );
 
-    // Upsert the admin record into the "Admins" collection
-    const resultAdmin = await db.collection("Admins").updateOne(
-      { Username: adminUsername },
-      { $set: { Username: adminUsername, Password: adminHash } },
-      { upsert: true }
-    );
-
-    if (resultAdmin.upsertedCount > 0) {
-      console.log("Admin account created successfully!");
-    } else {
-      console.log("Admin account already exists and was updated successfully!");
+      if (result.upsertedCount > 0) {
+        console.log(`✅ ${role} account created successfully!`);
+      } else {
+        console.log(`🔄 ${role} account already exists and was updated successfully!`);
+      }
     }
 
-    // ============== INSERT/UPDATE USER ==============
-    const userUsername = "testuser";    // Adjust as needed
-    const userPassword = "password123"; // Use a strong password in production
+    // ========== INSERT/UPDATE ADMIN ==========
+    await upsertUser("admin", "admin123", "admin");
 
-    // Hash the user password
-    const userHash = createHash("sha256").update(userPassword).digest("hex");
+    // ========== INSERT/UPDATE PROJECT MANAGER ==========
+    await upsertUser("pm", "pm123", "project manager");
 
-    // Upsert the user record into the "Profiles" collection
-    const resultUser = await db.collection("Profiles").updateOne(
-      { Username: userUsername },
-      { $set: { Username: userUsername, Password: userHash } },
-      { upsert: true }
-    );
-
-    if (resultUser.upsertedCount > 0) {
-      console.log("User account created successfully!");
-    } else {
-      console.log("User account already exists and was updated successfully!");
-    }
+    // ========== INSERT/UPDATE USER ==========
+    await upsertUser("user1", "user123", "user");
 
   } catch (error) {
-    console.error("Error inserting accounts:", error);
+    console.error("❌ Error inserting accounts:", error);
   } finally {
     // 4) Close the MongoDB connection
     await client.close();

@@ -1,71 +1,98 @@
 .navbar {
-  width: calc(100% - 260px);
-  height: 70px;
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 25px;
   position: fixed;
   top: 0;
-  left: 260px;
-  /* box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); */
-}
-
-/* Notification Icon Wrapper */
-.notification-icon {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  background-color: #86288F; /* Icon background color */
-  border-radius: 50%;
-  cursor: pointer;
-  /* Optionally add a background image or an icon font here */
-  /* background: url('/icons/bell.svg') no-repeat center/cover; */
-}
-
-/* Notification Count Badge */
-.notification-count {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #ff0000;
-  color: #ffffff;
-  font-size: 0.75rem;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 2px 6px;
-  line-height: 1;
-  /* optional box-shadow for emphasis */
-  box-shadow: 0 0 3px rgba(0,0,0,0.3);
-}
-
-.searchContainer {
-  flex-grow: 1;
+  left: 260px; /* Adjust to your sidebar width */
+  width: calc(100% - 260px);
+  height: 60px;
+  background: white;
+  border-bottom: 1px solid #e5e5e5;
   display: flex;
-  justify-content: center;
-  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 32px;
+  z-index: 1000;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.search {
-  width: 320px;
-  padding: 12px;
+.left {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownButton {
+  background: none;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownButton:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdownContent {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: white;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 6px;
+  padding: 8px 0;
+  min-width: 160px;
+  z-index: 1001;
 }
 
-.userProfile {
+.dropdownContent a {
+  display: block;
+  padding: 10px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.dropdownContent a:hover {
+  background-color: #f1f1f1;
+  color: #86288F;
+}
+
+.right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
-.notification {
-  font-size: 1.4rem;
-  cursor: pointer;
+.userBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.user {
+.avatar {
+  width: 34px;
+  height: 34px;
+  background-color: #86288F;
+  color: white;
+  border-radius: 50%;
   font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
 }
