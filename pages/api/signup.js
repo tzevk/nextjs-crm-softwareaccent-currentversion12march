@@ -1,4 +1,4 @@
-import clientPromise from "../../lib/mongodb";
+import clientPromise from './mongodb';
 const { createHash } = require('node:crypto');
 
 export default async function handler(req, res) {

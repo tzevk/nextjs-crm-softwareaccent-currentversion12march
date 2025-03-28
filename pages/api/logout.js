@@ -1,4 +1,5 @@
 import { serialize } from 'cookie';
+import clientPromise from './mongodb';
 
 export default function handler(req, res) {
     res.setHeader('Set-Cookie', serialize('session', '', { path: '/', maxAge: -1 }));

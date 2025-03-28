@@ -1,6 +1,6 @@
 import Cookies from "cookies";
 import { createHash } from "crypto";
-import clientPromise from "../../lib/mongodb";
+import clientPromise from './mongodb';
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
